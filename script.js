@@ -1,29 +1,66 @@
-let today = new Date();
-let btn = document.getElementById("submit");
+let ul = document.getElementById("main");
+let btnAdd = document.getElementById("add");
 
-function run(){
+// To add items
+btnAdd.addEventListener("click", function () {
+  var inputData = document.getElementById("input").value.trim();
 
-    let input = document.getElementById("dob").value;
-    // we use new date() convert string into date
-    let DOB = new Date(input);
+  if (inputData) {
+    // To create List
+    let li = document.createElement("li");
+    li.textContent = inputData;
+    ul.appendChild(li);
+    document.getElementById("input").value = " ";
 
-    let year = today.getFullYear() - DOB.getFullYear();
-    let month = today.getMonth() - DOB.getMonth();
-    let date = today.getDate() - DOB.getDate();
+    // To create remove button
+    let btnRemove = document.createElement("button");
+    btnRemove.textContent = "Remove";
+    li.appendChild(btnRemove);
 
-    if(month < 0){
-        year--;
-        month += 12;
-    }
-    if(date <0 ){
-        month--;
-        date += 30;
-          
-    }
+    // To create remove button
+    let btnDone = document.createElement("button");
+    btnDone.textContent = "Done";
+    li.appendChild(btnDone);
 
-    let result = document.getElementById('result');
-    result.innerHTML = ` ${year} years , ${month} months , ${date} days`;
-    // document.write(` ${year} years , ${month} months , ${date} days `)
-}
+    // To create update button
+    let btnUpdate = document.createElement("button");
+    btnUpdate.textContent = "Update";
+    li.appendChild(btnUpdate);
 
-btn.addEventListener("click" , run);
+    // To remove items
+    btnRemove.addEventListener("click", function () {
+      // li.remove();
+      // OR
+      ul.removeChild(li);
+    });
+
+    // To done items
+    btnDone.addEventListener("click", function () {
+      if (btnDone.style.backgroundColor === "green") {
+        btnDone.style.backgroundColor = "";
+        btnDone.style.Color = "black";
+      } else {
+        btnDone.style.backgroundColor = "green";
+        btnDone.style.Color = "white";
+      }
+    });
+
+    // To update items
+    btnUpdate.addEventListener("click", function () {
+      let newInput = document.getElementById("input").value.trim();
+
+      if (newInput) {
+        // li.innerHTML = newInput;
+        // OR
+        li.textContent = newInput;
+        li.appendChild(btnRemove);
+        li.appendChild(btnDone);
+        li.appendChild(btnUpdate);
+
+        document.getElementById("input").value = " ";
+      }
+    });
+  } else {
+    alert("Please enter a valid task!");
+  }
+});
